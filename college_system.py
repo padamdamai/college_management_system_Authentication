@@ -48,11 +48,9 @@ def admin_session():
             print(f"{username} has been successfully registered as student successfully ")
 
         else:
-            i= 1
-            while i > 4:
-                print("The password didn't matched,please try again ")
-                user_option()
-                i+=1
+            print("The password didn't matched,please try again ")
+            admin_session()
+                
 
     elif user_option == "2":
         print(" ")
@@ -68,11 +66,9 @@ def admin_session():
             print(f"{username} has been successfully registered as Teacher successfully ")
 
         else:
-            i= 1
-            while i > 4:
-                print("The password didn't matched,please try again ")
-                user_option()
-                i+=1
+            print("The password didn't matched,please try again ")
+            admin_session()
+
 
     elif user_option == "3":
         print(" ")
@@ -123,7 +119,7 @@ def main():
     while 1:
         print("\n")
         print("------------------------------------------------------------")
-        print('WELCOME TO THE COLLELGE SYSTEM')
+        print('WELCOME TO THE COLLELGE MANAGEMENT SYSTEM')
         print("")
         print("1,Log as student")
         print("2.Log as teacher")
