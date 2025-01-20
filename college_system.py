@@ -22,6 +22,32 @@ try:
 except mysql.Error as err:
     print(f"Error: {err}")
 
+def admin_teacher():
+    print(" ")
+    print(" Log in teacher account ")
+    username = input(str("Enter username : "))
+    password = getpass.getpass("Enter password : ")
+    sql_query = (username,password)
+    command_handler.execute("SELECT * FROM users WHERE username = %s AND password = %s AND previllege = 'Teacher' ",sql_query)
+    if command_handler.rowcount < 1:
+        print("Not able to reognized")
+    else:
+        time.sleep(3)
+        print("Logged in successful ")
+        teacher_session()
+
+def teacher_session():
+    print("---------------------------------------------------")
+    print("Teacher's menu")
+    print("1. Mark student register")
+    print("2. View register")     
+    print("3. Logout")   
+
+    user_option = input(str("Option : "))
+    if user_option == "1":
+        print(" ")
+        print("Mark student register")
+        command 
 
 def admin_session():
     print("---------------------------------------------------")
@@ -37,7 +63,7 @@ def admin_session():
     if user_option == "1":
         print(" ")
         print("Register new student")
-        username = input(str("Enter student name : "))
+        username = input(str("Enter student username : "))
         password = getpass.getpass("Enter the Password : ")
         conform_password = getpass.getpass("conform your password : ")
         if password  == conform_password :
@@ -55,7 +81,7 @@ def admin_session():
     elif user_option == "2":
         print(" ")
         print("Register new Teacher")
-        username = input(str("Enter Teacher name : "))
+        username = input(str("Enter Teacher username : "))
         password = getpass.getpass("Enter the Password : ")
         conform_password = getpass.getpass("conform your password : ")
         if password  == conform_password :
@@ -130,7 +156,7 @@ def main():
         if user_option == "1":
             print("Student login")
         elif user_option == "2":
-            print("Teacehr login")
+            admin_teacher()
         elif user_option == "3":
             auth_admin()
         elif user_option == "4":
