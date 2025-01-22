@@ -2,6 +2,7 @@ import mysql.connector as mysql
 import getpass
 import time
 import sys
+from prettytable import PrettyTable
 try:
     # Connect to the database
     db = mysql.connect(
@@ -39,15 +40,45 @@ def admin_teacher():
 def teacher_session():
     print("---------------------------------------------------")
     print("Teacher's menu")
-    print("1. Mark student register")
-    print("2. View register")     
+    print("1. Mark student Attendence")
+    print("2. View Attendence")     
     print("3. Logout")   
 
     user_option = input(str("Option : "))
     if user_option == "1":
         print(" ")
         print("Mark student register")
-        command 
+        command_handler.execute("SELECT username FROM users WHERE previllege = 'student'")
+        records = command_handler.fetchall()
+        date = command_handler.execute("SELECT CURDATE()")
+        currentDate = command_handler.fetchone()[0]  # Extract the date value from the tuple
+        for record in records :
+            student_username = record[0]
+            status = input(str("status for " + str(student_username) + " P/A/L  : "))
+            command_handler.execute(
+                "INSERT INTO Attendence (userName,date,status) VALUES (%s,%s,%s)",(student_username,currentDate,status.upper())
+                )
+            db.commit()
+    elif user_option == "2":
+        print(" ")
+        print("Displaying student Attendence")
+        command_handler.execute("SELECT username,date,status FROM Attendence")
+        records= command_handler.fetchall()
+        # creating pretty table instance 
+        table = PrettyTable()
+        table.field_names = ["student","Date","status"]
+        for record in records:
+            student_name, date, status = record 
+            table.add_row([student_name, date, status])
+        print(table)
+        
+    elif user_option == "3":
+        print("Logging out....")
+        time.sleep(3)
+        return
+    else:
+        print("No valid option was selected ")
+
 
 def admin_session():
     print("---------------------------------------------------")
@@ -124,7 +155,7 @@ def admin_session():
             print(f"Teacher {username} was deleted successfully ")
     elif user_option == "5":
         print("logging out...")
-        time.sleep(4)
+        time.sleep(3)
         return 
     else:
         print("The option is not available i.e invalid option")
