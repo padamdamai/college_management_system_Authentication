@@ -23,6 +23,24 @@ try:
 except mysql.Error as err:
     print(f"Error: {err}")
 
+
+
+
+
+def admin_student():
+    print(" ")
+    print("Welcome to Student login page ")
+    username = input(str("Enter your username:"))
+    password = getpass.getpass("Enter your password: ")
+    sql_query = (username,password,'student')
+    command_handler.execute("SELECT * FROM users WHERE username = %s AND password = %s AND previllege = %s ",sql_query)
+    if command_handler.rowcount < 1:
+        print("Not able to recognized")
+    else:
+        print("Logging....")
+        time.sleep(3)
+        student_session(username)
+
 def admin_teacher():
     print(" ")
     print(" Log in teacher account ")
@@ -78,6 +96,37 @@ def teacher_session():
         return
     else:
         print("No valid option was selected ")
+
+def student_session(username):
+    while 1:
+        print(" ")
+        print("Student Menu's")
+        print(" ")
+        print("1.View Attendence")
+        print("2.Download Attendence sheet")
+        print("3.Logout")
+        print(" ")
+        choise = input(str("Option : "))
+        if choise == "1":
+            user_std = (str(username),)
+            command_handler.execute("SELECT UserName,date,Status from Attendence where  UserName = %s",user_std)
+            record_std = command_handler.fetchall()
+            for record in record_std:
+                print(record)
+        elif choise == "2":
+            print("downloading file....")
+            time.sleep(2)
+            user_std = (str(username),)
+            command_handler.execute("SELECT UserName,date,Status from Attendence where  UserName = %s",user_std)
+            record_std = command_handler.fetchall()
+            with open("Attendence.txt",'w') as file:
+                file.write(str(record_std) + "\n")
+                file.close()
+            print("All records downloaded")
+        elif choise == "3":
+            break
+        else:
+            print("No valid opton was selected")
 
 
 def admin_session():
@@ -178,14 +227,14 @@ def main():
         print("------------------------------------------------------------")
         print('WELCOME TO THE COLLELGE MANAGEMENT SYSTEM')
         print("")
-        print("1,Log as student")
+        print("1.Log as student")
         print("2.Log as teacher")
         print("3.Log as admin")
         print("4.Exit")
 
         user_option = input(str("Option:"))
         if user_option == "1":
-            print("Student login")
+            admin_student()
         elif user_option == "2":
             admin_teacher()
         elif user_option == "3":

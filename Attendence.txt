@@ -1,0 +1,1 @@
+[('john_doe', datetime.date(2025, 1, 22), 'P'), ('john_doe', datetime.date(2025, 1, 26), 'A')]
